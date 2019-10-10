@@ -37,7 +37,10 @@ class BJ_Hand(Hand):
     def __str__(self):
         out = str()
         for card in self.cards:
-            out += card.card
+            if card.face_up:
+                out += card.card
+            else:
+                out += '**'
         out +='  '+str(self.total_value)
         return out
 class Player(BJ_Hand):
