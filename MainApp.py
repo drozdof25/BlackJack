@@ -24,5 +24,4 @@ class MainApp(App):
     def build(self):
         self.main_widget = Builder.load_file('main.kv')
         return self.main_widget
-
 MainApp().run()
