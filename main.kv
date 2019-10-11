@@ -1,14 +1,4 @@
 
-<Table>:
-    source:'image\\table.png'
-    size:self.size
-    allow_stretch: True
-    keep_ratio: False
-<Player_Box>:
-    source:'image\\player_label.png'
-    size:self.texture.size
-    allow_stretch: True
-    keep_ratio: False
 BoxLayout:
     orientation:'vertical'
     canvas:
@@ -17,34 +7,47 @@ BoxLayout:
         Rectangle:
             size: self.size
             pos: self.pos
-
     Widget:
         size_hint_y:.1
-    AnchorLayout:
-        size_hint_y:.75
-        Table:
-            id: table
-        FloatLayout:
-            Player_Box:
-                id:player_box
-                size_hint:.5,.2
-                pos:root.ids.table.width/4,root.ids.table.pos[1]
-            BoxLayout:
-                padding: dp(45),dp(0),dp(45),dp(0)
-                orientation: 'vertical'
-                size_hint:None,None
-                size:root.ids.player_box.size
-                pos:root.ids.player_box.pos
-                Label:
-                    size_hint:None,None
-                    text:root.ids.player_box.player.name
-                    font_name: 'Roboto-Bold'
-                    font_size:dp(40)
-                    color:.8,.8,.8,.8
-                Label:
-                    text: str(root.ids.player_box.player.chips)
-                    font_name: 'Roboto-Regular'
-                    font_size:dp(25)
-                    color:.8,.8,.8,.8
+    Table:
     Widget:
         size_hint_y:.15
+<Table>:
+    Image:
+        source:'image\\table.png'
+        size:self.size
+        allow_stretch: True
+        keep_ratio: False
+    StartButton:
+        size_hint:None,None
+        size:root.size[0]/3,root.size[1]/5
+<Player_Box@Image>:
+    source:'image\\player_label.png'
+    size:self.texture.size
+    allow_stretch: True
+    keep_ratio: False
+<Register>:
+    title: 'Test popup'
+    size_hint:None,None
+    size:dp(400),dp(200)
+    BoxLayout:
+        id:bl
+        padding:dp(20),dp(80),dp(20),dp(80)
+        spacing:dp(10)
+        Label:
+            id: lbl
+            text:'Name:'
+        TextInput:
+        Button:
+            text:'Ok'
+            on_press: root.dismiss()
+<StartButton@AnchorLayout>:
+    Button:
+        text: 'Start'
+        background_color:0,0,0,0
+        font_size:dp(40)
+        font_name:'Roboto-Regular'
+        on_press:
+            print('Start')
+            app.register()
+
