@@ -10,6 +10,7 @@ BoxLayout:
     Widget:
         size_hint_y:.1
     Table:
+        id:table
     Widget:
         size_hint_y:.15
 <Table>:
@@ -18,14 +19,32 @@ BoxLayout:
         size:self.size
         allow_stretch: True
         keep_ratio: False
-    StartButton:
+<Player_Box>:
+    anchor_x:'center'
+    anchor_y:'bottom'
+    AnchorLayout:
         size_hint:None,None
-        size:root.size[0]/3,root.size[1]/5
-<Player_Box@Image>:
-    source:'image\\player_label.png'
-    size:self.texture.size
-    allow_stretch: True
-    keep_ratio: False
+        size: root.ids.image.size
+        anchor_x:'center'
+        anchor_y:'bottom'
+        Image:
+            id : image
+            source:'image\\player_label.png'
+            size_hint:None,None
+            size: self.texture.size
+        BoxLayout:
+            orientation:'vertical'
+            padding: 10
+            Label:
+                size_hint_y:.7
+                text:root.name
+                font_name:'Roboto-Bold'
+                font_size:dp(22)
+            Label:
+                size_hint_y:.3
+                text:root.chips
+                font_name:'Roboto-Regular'
+                font_size:dp(15)
 <Register>:
     title: 'Test popup'
     size_hint:None,None
@@ -38,10 +57,14 @@ BoxLayout:
             id: lbl
             text:'Name:'
         TextInput:
+            id: ti
         Button:
             text:'Ok'
-            on_press: root.dismiss()
-<StartButton@AnchorLayout>:
+            on_press:
+                root.dismiss()
+                app.remove_start_button()
+                app.greate_player(root.ids.ti.text)
+<StartButton>:
     Button:
         text: 'Start'
         background_color:0,0,0,0
