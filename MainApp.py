@@ -7,8 +7,8 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.modalview import ModalView
 from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
-from blackjack import Player,BJ_Card
-from kivy.properties import StringProperty
+from blackjack import Player,BJ_Card,Dealer
+from kivy.properties import StringProperty,NumericProperty
 from kivy.uix.image import Image
 Window.size = (dp(720),dp(1280))
 
@@ -16,6 +16,8 @@ class Table(AnchorLayout):
     pass
 class Register(ModalView):
     pass
+class BetSelecter(ModalView):
+    bet = NumericProperty(200)
 class Player_BJ(Player):
     def __init__(self, name):
         super().__init__(name)
@@ -39,7 +41,18 @@ class MainApp(App):
     def greate_player(self,name):
         self.player = Player_BJ(name)
         self.main_widget.ids.table.add_widget(self.player.widget)
-
+    def change_bet(self):
+        betselekter = BetSelecter()
+        betselekter.open()
+    def betting(self,pot):
+        self.pot = pot
+        self.player.chips -= pot
+        self.player.widget.chips = str(self.player.chips)
+    def add_pot_label(self):
+        pot_lbl = PotLabel(pot = self.pot)
+        self.main_widget.ids.table.add_widget(pot_lbl)
 class StartButton(AnchorLayout):
     pass
+class PotLabel(AnchorLayout):
+    pot = NumericProperty()
 MainApp().run()
