@@ -7,8 +7,8 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.modalview import ModalView
 from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
-from blackjack import Player,BJ_Card,Dealer
-from kivy.properties import StringProperty,NumericProperty
+from blackjack import Player,BJ_Card,Dealer,BJ_Deck
+from kivy.properties import StringProperty,NumericProperty,ListProperty
 from kivy.uix.image import Image
 Window.size = (dp(720),dp(1280))
 
@@ -27,6 +27,9 @@ class Player_BJ(Player):
 class Player_Box(AnchorLayout):
     name = StringProperty()
     chips = StringProperty()
+class Card_Box(FloatLayout):
+    cards = StringProperty()
+    position = ListProperty()
 class MainApp(App):
     def build(self):
         self.main_widget = Builder.load_file('main.kv')
@@ -51,6 +54,22 @@ class MainApp(App):
     def add_pot_label(self):
         pot_lbl = PotLabel(pot = self.pot)
         self.main_widget.ids.table.add_widget(pot_lbl)
+    def start_game(self):
+        self.deck = BJ_Deck()
+        self.dealer = Dealer()
+        self.deck.populate()
+        self.deck.shuffle()
+        self.deck.deal(self.player,2)
+        self.deck.deal(self.dealer, 2)
+        self.dealer.flip_first_card()
+        card_box_player = Card_Box(position=[250,325],cards = str(self.player))
+        card_box_dealer = Card_Box(position=[250,850],cards = str(self.dealer))
+        self.main_widget.ids.table.add_widget(card_box_player)
+        self.main_widget.ids.table.add_widget(card_box_dealer)
+        btn1 = Button(text='Взять карту')
+        btn2 = Button(text='Хватит')
+        self.main_widget.ids.bl.add_widget(btn1)
+        self.main_widget.ids.bl.add_widget(btn2)
 class StartButton(AnchorLayout):
     pass
 class PotLabel(AnchorLayout):

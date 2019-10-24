@@ -10,8 +10,11 @@ BoxLayout:
         size_hint_y:.1
     Table:
         id:table
-    Widget:
+    BoxLayout:
+        id:bl
         size_hint_y:.15
+        padding: 20
+        spacing:20
 <Table>:
     Image:
         source:'image\\table.png'
@@ -87,6 +90,7 @@ BoxLayout:
                 text: 'Ok'
                 on_press:
                     app.betting(root.bet)
+                    app.start_game()
                     app.add_pot_label()
                     root.dismiss()
         AnchorLayout:
@@ -110,5 +114,14 @@ BoxLayout:
     anchor_y:'center'
     Label:
         text: 'POT: '+str(root.pot)
+        font_size:dp(25)
+        font_name:'Roboto-Regular'
+
+<Card_Box>:
+    size:self.size
+    Label:
+        size_hint:None,None
+        pos: root.position
+        text: root.cards
         font_size:dp(25)
         font_name:'Roboto-Regular'
